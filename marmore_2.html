@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mármore — A Pedra da Eternidade</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dark1:#1C1E1D; --dark2:#252726;
+  --mid:#4A4E4C; --silver:#A8B0AA;
+  --crystal:#D4DDD6; --white:#F0F4F1;
+  --accent:#8AADA0; --spark:#C8D8CE;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--dark1);color:var(--white);overflow-x:hidden}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 5%;
+  background:rgba(28,30,29,0.95);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(168,176,170,0.1);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:400;letter-spacing:0.14em;
+  color:var(--crystal);text-decoration:none;
+}
+/* Hamburger */
+.hamburger{
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;cursor:pointer;padding:4px;
+}
+.hamburger span{
+  display:block;width:22px;height:1.5px;
+  background:var(--silver);transition:all .3s;
+}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+/* Mobile drawer */
+.nav-drawer{
+  display:none;
+  position:fixed;top:56px;left:0;right:0;z-index:190;
+  background:rgba(20,22,21,0.98);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(168,176,170,0.1);
+  padding:1.5rem 5% 2rem;
+  flex-direction:column;gap:1.5rem;
+}
+.nav-drawer.open{display:flex}
+.nav-drawer a{
+  font-size:0.82rem;font-weight:500;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--silver);text-decoration:none;
+  padding:0.5rem 0;border-bottom:1px solid rgba(168,176,170,0.08);
+}
+/* Desktop links */
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{
+  font-size:0.68rem;font-weight:500;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--silver);text-decoration:none;
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--spark)}
+
+/* ── HERO ── */
+.hero{
+  height:100vh;min-height:500px;
+  display:grid;place-items:center;
+  text-align:center;padding:0 6%;
+  position:relative;overflow:hidden;
+}
+#stoneCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to bottom,rgba(28,30,29,.3) 0%,rgba(28,30,29,.55) 40%,rgba(28,30,29,.9) 100%);
+}
+.hero-inner{position:relative;z-index:2;max-width:700px;width:100%}
+.hero-eyebrow{
+  font-size:0.6rem;font-weight:500;letter-spacing:0.24em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:1.4rem;
+}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3rem,12vw,7rem);
+  font-weight:300;line-height:0.95;
+  color:var(--white);margin-bottom:0.2em;
+}
+.hero h1 em{font-style:italic;color:var(--crystal)}
+.hero-sub{
+  font-size:clamp(0.85rem,3.5vw,1rem);
+  font-weight:300;color:var(--silver);
+  max-width:480px;margin:1.6rem auto 0;
+  line-height:1.75;
+}
+.scroll-hint{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:0.4rem;
+  font-size:0.55rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--mid);z-index:2;
+}
+.scroll-hint::after{
+  content:'';width:1px;height:32px;
+  background:linear-gradient(to bottom,var(--accent),transparent);
+  animation:grow 2s ease-in-out infinite;
+}
+@keyframes grow{0%,100%{transform:scaleY(.3);opacity:.3}50%{transform:scaleY(1);opacity:1}}
+
+/* ── SECTIONS ── */
+section{padding:5rem 6%}
+.section-label{
+  font-size:0.6rem;font-weight:500;letter-spacing:0.26em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:0.8rem;
+}
+h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,7vw,3.4rem);
+  font-weight:300;line-height:1.1;
+  color:var(--white);margin-bottom:1.2rem;
+}
+.divider{width:40px;height:1px;background:var(--accent);margin:1.6rem 0}
+p.body{
+  font-size:clamp(0.85rem,3.5vw,0.95rem);
+  line-height:1.82;color:var(--silver);font-weight:300;
+}
+p.body+p.body{margin-top:0.9rem}
+
+/* ── ETERNIDADE ── */
+#eternidade{background:var(--dark2);border-top:1px solid rgba(168,176,170,0.08)}
+.et-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:center;
+}
+.stone-swatch{
+  position:relative;aspect-ratio:4/5;
+  border-radius:3px;overflow:hidden;
+}
+#swatchCanvas{width:100%;height:100%;display:block}
+.swatch-label{
+  position:absolute;bottom:1rem;left:1rem;
+  font-size:0.55rem;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(240,244,241,.45);
+}
+.facts{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;margin-top:2rem;
+  border:1px solid rgba(168,176,170,.1);
+  border-radius:2px;overflow:hidden;
+}
+.fact{background:rgba(255,255,255,.03);padding:1.1rem}
+.fact-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:300;
+  color:var(--spark);line-height:1;margin-bottom:.25rem;
+}
+.fact-label{font-size:.62rem;color:var(--mid);letter-spacing:.1em;text-transform:uppercase}
+
+/* ── FORMAÇÃO ── */
+#formacao{background:var(--dark1);border-top:1px solid rgba(168,176,170,0.08)}
+.form-inner{max-width:1100px;margin:0 auto}
+.form-header{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;margin-bottom:3.5rem;align-items:end;
+}
+.steps{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;border:1px solid rgba(168,176,170,.08);
+  border-radius:2px;overflow:hidden;
+}
+.step{
+  background:rgba(255,255,255,.02);padding:1.6rem;
+  transition:background .2s;
+}
+.step:hover{background:rgba(168,176,170,.05)}
+.step-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.5rem;font-weight:300;
+  color:rgba(138,173,160,.22);
+  line-height:1;margin-bottom:.8rem;display:block;
+}
+.step h4{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:400;
+  color:var(--crystal);margin-bottom:.4rem;
+}
+.step p{font-size:.82rem;line-height:1.68;color:var(--mid)}
+.step-wide{grid-column:span 2}
+
+/* ── CUBO 3D ── */
+#cubo3d{
+  background:var(--dark2);
+  border-top:1px solid rgba(168,176,170,0.08);
+  padding:5rem 6%;
+}
+.cubo-inner{max-width:860px;margin:0 auto;text-align:center}
+.cubo-canvas-wrap{
+  margin-top:3rem;border-radius:8px;overflow:hidden;
+  border:1px solid rgba(168,176,170,.1);background:#0d0f0e;
+}
+#cubo3dCanvas{display:block;width:100%;height:460px;cursor:grab}
+#cubo3dCanvas:active{cursor:grabbing}
+.cubo-controls{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:1rem;background:#0d0f0e;
+  border-top:1px solid rgba(168,176,170,.08);
+  flex-wrap:wrap;
+}
+.cubo-controls button{
+  background:rgba(255,255,255,.07);
+  border:0.5px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:6px 18px;
+  font-size:12px;color:rgba(255,255,255,.7);
+  cursor:pointer;letter-spacing:.06em;
+  transition:background .2s;
+}
+.cubo-controls button:hover{background:rgba(255,255,255,.13);color:#fff}
+.cubo-controls span{
+  font-size:10px;color:rgba(168,176,170,.35);
+  letter-spacing:.16em;text-transform:uppercase;
+}
+
+/* ── FOOTER ── */
+footer{
+  background:#0E0F0E;
+  padding:2rem 6%;
+  display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:1rem;
+  border-top:1px solid rgba(168,176,170,.07);
+}
+.footer-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:.95rem;font-weight:300;
+  color:rgba(240,244,241,.5);
+}
+footer span.copy{
+  font-size:.65rem;color:rgba(168,176,170,.3);letter-spacing:.06em;
+}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── RESPONSIVE MOBILE ── */
+@media(max-width:760px){
+  /* Nav */
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  /* Hero */
+  .hero{min-height:100svh}
+  /* Sections */
+  section{padding:4rem 5%}
+  /* Eternidade — coluna única */
+  .et-inner{grid-template-columns:1fr;gap:2.5rem}
+  .stone-swatch{aspect-ratio:16/9}
+  /* Formação — coluna única */
+  .form-header{grid-template-columns:1fr;gap:1.5rem;margin-bottom:2.5rem}
+  .steps{grid-template-columns:1fr}
+  .step-wide{grid-column:span 1}
+  /* Cubo */
+  #cubo3dCanvas{height:300px}
+  /* Footer */
+  footer{flex-direction:column;text-align:center}
+}
+@media(max-width:400px){
+  .hero h1{font-size:2.6rem}
+  #cubo3dCanvas{height:260px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">MÁRMORE</a>
+  <ul class="nav-links">
+    <li><a href="#eternidade">A Pedra</a></li>
+    <li><a href="#formacao">Formação</a></li>
+    <li><a href="#cubo3d">Cubo 3D</a></li>
+  </ul>
+  <button class="hamburger" id="hamBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+  <a href="#eternidade" onclick="closeMenu()">A Pedra</a>
+  <a href="#formacao" onclick="closeMenu()">Formação</a>
+  <a href="#cubo3d" onclick="closeMenu()">Cubo 3D</a>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <canvas id="stoneCanvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Rocha metamórfica · Pedra natural</p>
+    <h1>A Pedra da<br><em>Eternidade</em></h1>
+    <p class="hero-sub">Formada nas profundezas da Terra sob calor e pressão extremos — o mármore atravessa milênios sem perder sua beleza singular.</p>
+  </div>
+  <div class="scroll-hint">Explorar</div>
+</header>
+
+<!-- A PEDRA DA ETERNIDADE -->
+<section id="eternidade">
+  <div class="et-inner">
+    <div class="reveal">
+      <p class="section-label">O que é</p>
+      <h2>A Pedra da Eternidade</h2>
+      <div class="divider"></div>
+      <p class="body">O mármore é uma rocha metamórfica originada a partir do calcário ou dolomita transformados sob condições extremas de calor e pressão no interior da crosta terrestre. O processo de recristalização reorganiza os grãos de calcita em uma estrutura mais densa, compacta e esteticamente única.</p>
+      <p class="body">A palavra vem do grego <em>marmaros</em> — "pedra resplandecente". As impurezas naturais — óxido de ferro, grafite, argila — criam os padrões de veias e tons que tornam cada bloco absolutamente irrepetível.</p>
+      <p class="body">Do Partenon de Atenas à Pietà de Michelangelo, do Taj Mahal às bancadas contemporâneas, o mármore é o material da memória humana.</p>
+      <div class="facts">
+        <div class="fact"><div class="fact-num">2,7</div><div class="fact-label">g/cm³ densidade</div></div>
+        <div class="fact"><div class="fact-num">3–4</div><div class="fact-label">Dureza Mohs</div></div>
+        <div class="fact"><div class="fact-num">100M</div><div class="fact-label">Anos de formação</div></div>
+        <div class="fact"><div class="fact-num">∞</div><div class="fact-label">Durabilidade</div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="stone-swatch">
+        <canvas id="swatchCanvas"></canvas>
+        <span class="swatch-label">Mármore cinza escuro — textura natural</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO SE FORMA -->
+<section id="formacao">
+  <div class="form-inner">
+    <div class="form-header reveal">
+      <div>
+        <p class="section-label">Geologia</p>
+        <h2>Como o mármore se forma</h2>
+        <div class="divider"></div>
+      </div>
+      <p class="body">Do fundo dos oceanos às profundezas da crosta terrestre — o mármore é o resultado de um processo geológico que dura dezenas a centenas de milhões de anos.</p>
+    </div>
+    <div class="steps reveal">
+      <div class="step">
+        <span class="step-num">1</span>
+        <h4>Sedimentação marinha</h4>
+        <p>Conchas, corais e organismos marinhos se depositam no fundo dos oceanos formando camadas espessas de calcário ricas em CaCO₃.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <h4>Soterramento profundo</h4>
+        <p>O movimento das placas tectônicas empurra o calcário para 10 a 30 km abaixo da superfície, sob pressão extrema.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <h4>Metamorfismo térmico</h4>
+        <p>Calor entre 200 °C e 700 °C faz os grãos de calcita recristalizarem. As impurezas criam veias e colorações únicas.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">4</span>
+        <h4>Soerguimento e extração</h4>
+        <p>Movimentos orogênicos elevam o mármore à superfície. É extraído com fios diamantados e polido para revelar seu brilho.</p>
+      </div>
+      <div class="step step-wide">
+        <span class="step-num">✦</span>
+        <h4>O que determina a cor e as veias</h4>
+        <p>O tom escuro vem de partículas de grafite e minerais ferromagnesianos. As manchas brancas e prateadas são cristais de quartzo e feldspato que refletem a luz — o brilho metálico característico. Cada padrão é impossível de reproduzir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CUBO 3D -->
+<section id="cubo3d">
+  <div class="cubo-inner">
+    <div class="reveal">
+      <p class="section-label">Visualização interativa</p>
+      <h2>Pedra em 360°</h2>
+      <div class="divider" style="margin:1.6rem auto"></div>
+      <p class="body" style="margin:0 auto">Cubo de mármore com a textura e tonalidade da pedra fotografada. Arraste para girar em qualquer direção.</p>
+    </div>
+    <div class="cubo-canvas-wrap reveal">
+      <canvas id="cubo3dCanvas"></canvas>
+      <div class="cubo-controls">
+        <button id="cuboAutoBtn">⟳ Auto-girar</button>
+        <span>← arraste →</span>
+        <button id="cuboResetBtn">Resetar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">MÁRMORE · A Pedra da Eternidade</span>
+  <span class="copy">Rocha metamórfica · Beleza que atravessa milênios</span>
+</footer>
+
+<script>
+// ── Hamburger ──
+const hamBtn=document.getElementById('hamBtn');
+const navDrawer=document.getElementById('navDrawer');
+hamBtn.addEventListener('click',()=>{
+  hamBtn.classList.toggle('open');
+  navDrawer.classList.toggle('open');
+});
+function closeMenu(){
+  hamBtn.classList.remove('open');
+  navDrawer.classList.remove('open');
+}
+
+// ── RNG ──
+function mkRng(seed){let s=seed;return()=>{s=(s*1664525+1013904223)&0xffffffff;return(s>>>0)/0xffffffff;};}
+
+// ── Stone texture generator ──
+function drawStone(canvas,seed,vignette){
+  const c=canvas.getContext('2d'),W=canvas.width,H=canvas.height,r=mkRng(seed);
+  c.fillStyle='#1A1D1C';c.fillRect(0,0,W,H);
+  for(let i=0;i<18;i++){
+    const x=r()*W,y=r()*H,rx=40+r()*130,ry=30+r()*90;
+    const g=c.createRadialGradient(x,y,0,x,y,Math.max(rx,ry));
+    g.addColorStop(0,`rgba(5,7,6,${.7+r()*.3})`);g.addColorStop(.6,`rgba(9,11,10,${.3+r()*.3})`);g.addColorStop(1,'rgba(0,0,0,0)');
+    c.save();c.scale(1,ry/rx);c.fillStyle=g;c.beginPath();c.arc(x,y*(rx/ry),rx,0,Math.PI*2);c.fill();c.restore();
+  }
+  for(let i=0;i<90;i++){
+    const x=r()*W,y=r()*H,rad=8+r()*65,v=Math.floor(r()*32+40);
+    const g=c.createRadialGradient(x,y,0,x,y,rad);
+    g.addColorStop(0,`rgba(${v},${v+4},${v+2},${.42+r()*.45})`);g.addColorStop(1,'rgba(0,0,0,0)');
+    c.fillStyle=g;c.beginPath();c.arc(x,y,rad,0,Math.PI*2);c.fill();
+  }
+  for(let i=0;i<600;i++){
+    const x=r()*W,y=r()*H,rad=.4+r()*3.2,br=Math.floor(r()*75+168);
+    c.fillStyle=`rgba(${br},${br+7},${br+4},${.38+r()*.62})`;c.beginPath();c.arc(x,y,rad,0,Math.PI*2);c.fill();
+  }
+  for(let i=0;i<80;i++){
+    const x=r()*W,y=r()*H,rad=3+r()*18,b=Math.floor(r()*55+138);
+    const g=c.createRadialGradient(x,y,0,x,y,rad);
+    g.addColorStop(0,`rgba(${b},${b+10},${b+6},${.65+r()*.35})`);g.addColorStop(1,'rgba(0,0,0,0)');
+    c.fillStyle=g;c.beginPath();c.arc(x,y,rad,0,Math.PI*2);c.fill();
+  }
+  const id=c.getImageData(0,0,W,H),d=id.data,r2=mkRng(seed+99);
+  for(let i=0;i<d.length;i+=4){const n=(r2()-.5)*24;d[i]=Math.min(255,Math.max(0,d[i]+n));d[i+1]=Math.min(255,Math.max(0,d[i+1]+n));d[i+2]=Math.min(255,Math.max(0,d[i+2]+n));}
+  c.putImageData(id,0,0);
+  if(vignette){
+    const vg=c.createRadialGradient(W/2,H/2,Math.min(W,H)*.28,W/2,H/2,Math.max(W,H)*.8);
+    vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,0.5)');
+    c.fillStyle=vg;c.fillRect(0,0,W,H);
+  }
+}
+
+// ── Hero canvas ──
+(function(){
+  const cv=document.getElementById('stoneCanvas');
+  function go(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;drawStone(cv,42,true);}
+  go();window.addEventListener('resize',go);
+})();
+
+// ── Swatch canvas ──
+(function(){
+  const cv=document.getElementById('swatchCanvas');
+  function go(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;drawStone(cv,77,true);}
+  window.addEventListener('resize',go);setTimeout(go,80);
+})();
+
+// ── Cubo 3D ──
+(function(){
+  const cv=document.getElementById('cubo3dCanvas');
+  const ct=cv.getContext('2d');
+  let W,H,CX,CY,S;
+  let aY=0.5,aX=0.28,autoRot=true,drag=false,lastX=0,lastY=0;
+
+  function makeTex(seed,br){
+    const sz=400,fc=document.createElement('canvas');fc.width=sz;fc.height=sz;
+    const c=fc.getContext('2d'),r=mkRng(seed);
+    c.fillStyle='#1A1D1C';c.fillRect(0,0,sz,sz);
+    for(let i=0;i<14;i++){
+      const x=r()*sz,y=r()*sz,rx=20+r()*80,ry=15+r()*55;
+      const g=c.createRadialGradient(x,y,0,x,y,Math.max(rx,ry));
+      g.addColorStop(0,`rgba(0,0,0,${.5+r()*.4})`);g.addColorStop(1,'rgba(0,0,0,0)');
+      c.save();c.scale(1,ry/rx);c.fillStyle=g;c.beginPath();c.arc(x,y*(rx/ry),rx,0,Math.PI*2);c.fill();c.restore();
+    }
+    for(let i=0;i<60;i++){
+      const x=r()*sz,y=r()*sz,rad=5+r()*40,v=br+Math.floor(r()*30-10);
+      const g=c.createRadialGradient(x,y,0,x,y,rad);
+      g.addColorStop(0,`rgba(${v},${v},${v},${.35+r()*.4})`);g.addColorStop(1,'rgba(0,0,0,0)');
+      c.fillStyle=g;c.beginPath();c.arc(x,y,rad,0,Math.PI*2);c.fill();
+    }
+    for(let i=0;i<350;i++){
+      const x=r()*sz,y=r()*sz,rad=.3+r()*2.8,b=180+Math.floor(r()*75);
+      c.fillStyle=`rgba(${b},${b+5},${b+3},${.4+r()*.6})`;c.beginPath();c.arc(x,y,rad,0,Math.PI*2);c.fill();
+    }
+    for(let i=0;i<40;i++){
+      const x=r()*sz,y=r()*sz,rad=2+r()*14,b=140+Math.floor(r()*55);
+      const g=c.createRadialGradient(x,y,0,x,y,rad);
+      g.addColorStop(0,`rgba(${b},${b+10},${b+7},${.6+r()*.4})`);g.addColorStop(1,'rgba(0,0,0,0)');
+      c.fillStyle=g;c.beginPath();c.arc(x,y,rad,0,Math.PI*2);c.fill();
+    }
+    const id=c.getImageData(0,0,sz,sz),d=id.data,r2=mkRng(seed+500);
+    for(let i=0;i<d.length;i+=4){const n=(r2()-.5)*28;d[i]=Math.min(255,Math.max(0,d[i]+n));d[i+1]=Math.min(255,Math.max(0,d[i+1]+n));d[i+2]=Math.min(255,Math.max(0,d[i+2]+n));}
+    c.putImageData(id,0,0);return fc;
+  }
+
+  const tex=[makeTex(11,52),makeTex(22,45),makeTex(33,55),makeTex(44,48),makeTex(55,60),makeTex(66,42)];
+
+  function resize(){
+    W=cv.offsetWidth;H=cv.offsetHeight||300;
+    cv.width=W;cv.height=H;CX=W/2;CY=H/2+8;
+    S=Math.min(W,H)*0.28;
+  }
+
+  function rot(x,y,z,ay,ax){
+    const cy=Math.cos(ay),sy=Math.sin(ay);
+    let rx=x*cy+z*sy,ry=y,rz=-x*sy+z*cy;
+    const cx2=Math.cos(ax),sx2=Math.sin(ax);
+    return{sx:CX+rx,sy:CY+ry*cx2-rz*sx2,z:ry*sx2+rz*cx2};
+  }
+  function v(x,y,z){return rot(x,y,z,aY,aX);}
+
+  function face(pts,t,light){
+    const[p0,p1,p2,p3]=pts;
+    const ax=p1.sx-p0.sx,ay=p1.sy-p0.sy,bx=p3.sx-p0.sx,by=p3.sy-p0.sy;
+    if(ax*by-ay*bx>=0)return;
+    ct.save();
+    ct.beginPath();ct.moveTo(p0.sx,p0.sy);ct.lineTo(p1.sx,p1.sy);ct.lineTo(p2.sx,p2.sy);ct.lineTo(p3.sx,p3.sy);ct.closePath();ct.clip();
+    const x0=p0.sx,y0=p0.sy,x1=p1.sx,y1=p1.sy,x3=p3.sx,y3=p3.sy,sz=t.width;
+    ct.setTransform((x1-x0)/sz,(y1-y0)/sz,(x3-x0)/sz,(y3-y0)/sz,x0,y0);
+    ct.drawImage(t,0,0);ct.setTransform(1,0,0,1,0,0);
+    ct.beginPath();ct.moveTo(p0.sx,p0.sy);ct.lineTo(p1.sx,p1.sy);ct.lineTo(p2.sx,p2.sy);ct.lineTo(p3.sx,p3.sy);ct.closePath();
+    ct.fillStyle=`rgba(0,0,0,${1-light})`;ct.fill();
+    ct.strokeStyle='rgba(0,0,0,0.9)';ct.lineWidth=2.2;ct.stroke();
+    ct.strokeStyle='rgba(180,200,192,0.18)';ct.lineWidth=1;ct.stroke();
+    ct.restore();
+  }
+
+  function render(){
+    ct.clearRect(0,0,W,H);
+    const bg=ct.createRadialGradient(CX,CY,0,CX,CY,W*.7);
+    bg.addColorStop(0,'#1a1d1c');bg.addColorStop(1,'#0d0f0e');
+    ct.fillStyle=bg;ct.fillRect(0,0,W,H);
+    const vx=[[-S,-S,-S],[S,-S,-S],[S,S,-S],[-S,S,-S],[-S,-S,S],[S,-S,S],[S,S,S],[-S,S,S]];
+    const ps=vx.map(([x,y,z])=>v(x,y,z));
+    [
+      {vi:[0,1,2,3],ti:0,l:.62},{vi:[1,5,6,2],ti:1,l:.52},
+      {vi:[5,4,7,6],ti:2,l:.58},{vi:[4,0,3,7],ti:3,l:.50},
+      {vi:[4,5,1,0],ti:4,l:.90},{vi:[3,2,6,7],ti:5,l:.28},
+    ].map(f=>({...f,pts:f.vi.map(i=>ps[i]),d:f.vi.reduce((a,i)=>a+ps[i].z,0)/4}))
+     .sort((a,b)=>b.d-a.d)
+     .forEach(f=>face(f.pts,tex[f.ti],f.l));
+    const sy=CY+S*.95;
+    const sg=ct.createRadialGradient(CX,sy,0,CX,sy,S*1.1);
+    sg.addColorStop(0,'rgba(0,0,0,0.3)');sg.addColorStop(1,'rgba(0,0,0,0)');
+    ct.fillStyle=sg;ct.beginPath();ct.ellipse(CX,sy,S*1.05,S*.18,0,0,Math.PI*2);ct.fill();
+  }
+
+  function loop(){if(autoRot){aY+=0.013;aX=0.28+Math.sin(aY*.45)*.13;}render();requestAnimationFrame(loop);}
+
+  // Touch & mouse
+  cv.addEventListener('mousedown',e=>{drag=true;lastX=e.clientX;lastY=e.clientY;autoRot=false;});
+  window.addEventListener('mousemove',e=>{if(!drag)return;aY-=(e.clientX-lastX)/150;aX+=(e.clientY-lastY)/220;aX=Math.max(-.7,Math.min(.7,aX));lastX=e.clientX;lastY=e.clientY;});
+  window.addEventListener('mouseup',()=>{drag=false;});
+  cv.addEventListener('touchstart',e=>{drag=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;autoRot=false;e.preventDefault();},{passive:false});
+  cv.addEventListener('touchmove',e=>{if(!drag)return;aY-=(e.touches[0].clientX-lastX)/150;aX+=(e.touches[0].clientY-lastY)/220;aX=Math.max(-.7,Math.min(.7,aX));lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;e.preventDefault();},{passive:false});
+  cv.addEventListener('touchend',()=>{drag=false;});
+
+  document.getElementById('cuboAutoBtn').addEventListener('click',function(){
+    autoRot=!autoRot;this.textContent=autoRot?'⟳ Auto-girar':'⟳ Pausado';
+    this.style.borderColor=autoRot?'rgba(255,255,255,.4)':'rgba(255,255,255,.2)';
+  });
+  document.getElementById('cuboResetBtn').addEventListener('click',()=>{
+    aY=0.5;aX=0.28;autoRot=true;
+    document.getElementById('cuboAutoBtn').textContent='⟳ Auto-girar';
+  });
+
+  window.addEventListener('resize',()=>{resize();});
+  resize();loop();
+})();
+
+// ── Scroll reveal ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*70);obs.unobserve(e.target);}});
+},{threshold:.1,rootMargin:'0px 0px -24px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
